@@ -1,5 +1,8 @@
 const {Schema, model} = require('mongoose');
 const Joi = require('joi');
+
+const mongoosePaginate = require('mongoose-paginate-v2');
+
 const {handleSaveErrors} = require('../helpers');
 
 const emailRegExp = /^[A-Za-z0-9_!#$%&'*+=?`{|}~^.-]+@[A-Za-z0-9.-]+$/
@@ -22,11 +25,17 @@ const contactSchema = new Schema({
   favorite:{
     type:Boolean,
     default: false,
-  }
+  },
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "user",
+    required: true,
+}
 
 },{versionKey:false,timestamps:true});
 
 contactSchema.post('save',handleSaveErrors);
+contactSchema.plugin(mongoosePaginate);
 
 const addSchema = Joi.object({
   name:Joi.string().required(),
