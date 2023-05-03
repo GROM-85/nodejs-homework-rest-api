@@ -31,6 +31,10 @@ const userSchema = new Schema(
       default: "starter",
       enum: allowedSubscriptions,
     },
+    avatarURL:{
+        type:String,
+        reqiured:true,
+    }
   },
   { versionKey: false, timestamps: true }
 );
